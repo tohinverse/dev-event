@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 
 import connectDB from "@/lib/mongodb";
+import { uploadImage } from "@/lib/cloudinary";
 import { Event } from '@/database/event.model';
 
 export async function POST(req: NextRequest) {
@@ -9,12 +10,23 @@ export async function POST(req: NextRequest) {
 
         const formData = await req.formData();
 
-        let event;
+        let event: Record<string, FormDataEntryValue>;
 
         try {
             event = Object.fromEntries(formData.entries());
         } catch (e) {
             return NextResponse.json({ message: 'Invalid JSON data format'}, { status: 400 })
+        }
+
+        const imageFile = formData.get('image');
+
+        if (imageFile instanceof File) {
+            if (imageFile.size === 0) {
+                return NextResponse.json({ message: 'Image file is empty' }, { status: 400 });
+            }
+
+            const { url } = await uploadImage(imageFile);
+            event.image = url;
         }
 
         const createdEvent = await Event.create(event);
