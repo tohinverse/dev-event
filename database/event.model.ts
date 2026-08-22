@@ -28,7 +28,7 @@ const TIME_PATTERN = /^([01]?\d|2[0-3]):[0-5]\d$|^(0?[1-9]|1[0-2]):[0-5]\d\s?(AM
 const eventSchema = new Schema<IEvent>(
   {
     title: { type: String, required: true, trim: true },
-    slug: { type: String, unique: true },
+    slug: { type: String },
     description: { type: String, required: true, trim: true },
     overview: { type: String, required: true, trim: true },
     image: { type: String, required: true, trim: true },

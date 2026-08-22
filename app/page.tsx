@@ -1,20 +1,7 @@
 import { Suspense } from "react"
 import EventCard from "@/components/EventCard"
 import ExploreBtn from "@/components/ExploreBtn"
-import { BASE_URL } from "@/lib/config"
-import type { EventItem } from "@/lib/constants"
-
-const getEvents = async (): Promise<EventItem[]> => {
-	const res = await fetch(`${BASE_URL}/api/events`, { cache: "no-store" });
-
-	if (!res.ok) {
-		return [];
-	}
-
-	const { events } = await res.json();
-
-	return events;
-}
+import { getEvents } from "@/lib/actions/event.actions"
 
 const FeaturedEvents = async () => {
 	const events = await getEvents();
