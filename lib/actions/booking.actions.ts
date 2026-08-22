@@ -1,6 +1,6 @@
 'use server';
 
-import {Booking} from '@/database/booking.model';
+import Booking from '@/database/booking.model';
 
 import connectDB from "@/lib/mongodb";
 
